@@ -1,6 +1,7 @@
 const Sweet = require('../model/Sweet');
 
 
+//CRUD operation
 const createSweets = async (req, res) =>{
      try {
     const { name, description, category, price, quantity, imageUrl } = req.body;
@@ -96,6 +97,39 @@ const searchSweets = async (req, res) => {
   }
 };
 
+//Inventory management
+
+const purchaseSweet = async (req, res) => {
+  try {
+    const sweet = await Sweet.findById(req.params.id);
+    if (!sweet) return res.status(404).json({ message: 'Sweet not found' });
+
+    if (sweet.quantity <= 0) {
+      return res.status(400).json({ message: 'Out of stock' });
+    }
+    sweet.quantity -= 1;
+
+    await sweet.save();
+    res.json({ message: 'Purchase successful', sweet });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+const restockSweet = async (req, res) => {
+  try {
+    const { amount } = req.body;
+    const sweet = await Sweet.findById(req.params.id);
+    if (!sweet) return res.status(404).json({ message: 'Sweet not found' });
+
+    sweet.quantity += amount || 1;
+    await sweet.save();
+    res.json({ message: 'Restocked', sweet });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
 
 
-module.exports = {createSweets, updateSweet, getAllSweets, getSweetById, deleteSweet, searchSweets}
+
+module.exports = {createSweets, updateSweet, getAllSweets, getSweetById, deleteSweet, searchSweets, purchaseSweet, restockSweet}

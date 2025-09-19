@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {createSweets, updateSweet, getAllSweets, getSweetById, deleteSweet, searchSweets} = require('../controllers/sweetController')
+const {createSweets, updateSweet, getAllSweets, getSweetById, deleteSweet, searchSweets, purchaseSweet, restockSweet} = require('../controllers/sweetController')
 const {protected, adminOnly} = require('../middlewares/authMiddleware')
 
 //puclic
@@ -12,5 +12,9 @@ router.get('/:id', getSweetById)
 router.post('/create', protected, adminOnly, createSweets);
 router.put('/:id', protected, adminOnly, updateSweet);
 router.post('/delete/:id', protected, adminOnly, deleteSweet);
+
+//Inventory
+router.post('/:id/purchase', protected, purchaseSweet);
+router.post('/:id/restock', protected, adminOnly, restockSweet);
 
 module.exports = router;
