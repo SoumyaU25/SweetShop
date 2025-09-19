@@ -28,4 +28,74 @@ const createSweets = async (req, res) =>{
   }
 }
 
-module.exports = {createSweets}
+const updateSweet = async (req, res, next) => {
+  try {
+    const updatedSweet = await Hotel.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true }
+    );
+    res.status(200).json(updatedSweet);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+getAllSweets = async (req, res) => {
+  try {
+    const sweets = await Sweet.find().populate('createdBy', 'username email');
+    res.json(sweets);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+getSweetById = async (req, res) => {
+  try {
+    const sweet = await Sweet.findById(req.params.id);
+    if (!sweet) return res.status(404).json({ message: 'Sweet not found' });
+    res.json(sweet);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+const deleteSweet = async (req, res) => {
+  try {
+    const sweet = await Sweet.findByIdAndDelete(req.params.id);
+    if (!sweet) return res.status(404).json({ message: 'Sweet not found' });
+    res.json({ message: 'Sweet deleted' });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+const searchSweets = async (req, res) => {
+  try {
+    const { name, category, minPrice, maxPrice } = req.query;
+    const filter = {};
+
+    if (name) {
+      filter.name = { $regex: name, $options: 'i' }; // case-insensitive partial match
+    }
+    if (category) {
+      filter.category = { $regex: category, $options: 'i' };
+    }
+    if (minPrice || maxPrice) {
+      filter.price = {};
+      if (minPrice) filter.price.$gte = Number(minPrice);
+      if (maxPrice) filter.price.$lte = Number(maxPrice);
+    }
+
+    const sweets = await Sweet.find(filter);
+    res.json(sweets);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+
+module.exports = {createSweets, updateSweet, getAllSweets, getSweetById, deleteSweet, searchSweets}
