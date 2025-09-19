@@ -1,5 +1,6 @@
 const Sweet = require('../model/Sweet');
 
+
 const createSweets = async (req, res) =>{
      try {
     const { name, description, category, price, quantity, imageUrl } = req.body;
@@ -26,3 +27,5 @@ const createSweets = async (req, res) =>{
     res.status(500).json({ message: 'Server error' });
   }
 }
+
+module.exports = {createSweets}

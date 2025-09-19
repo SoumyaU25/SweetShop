@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const {createSweets} = require('../controllers/sweetController')
+const {protected, adminOnly} = require('../middlewares/authMiddleware')
 
-// placeholder
-router.get('/', (req, res) => res.json({ msg: 'sweets root' }));
+
+
+// Admin-only actions
+router.post('/create', protected, adminOnly, createSweets);
 
 module.exports = router;

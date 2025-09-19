@@ -4,7 +4,7 @@ const User = require('../model/User');
 
 const register = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, role} = req.body;
 
     if (!username || !email || !password) {
       return res.status(400).json({ message: 'All fields required' });
@@ -16,7 +16,7 @@ const register = async (req, res) => {
     }
 
     const hashed = await bcrypt.hash(password, 10);
-    const user = await User.create({ username, email, password: hashed });
+    const user = await User.create({ username, email, password: hashed, role: role || 'user'});
 
     const token = jwt.sign(
       { id: user._id, role: user.role },
