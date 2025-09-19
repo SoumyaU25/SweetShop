@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../model/User');
 
-const protect = async (req, res, next) => {
+const protected = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   console.log(authHeader);
 
@@ -14,13 +14,14 @@ const protect = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     //ataching user to request
         req.user = await User.findById(decoded.id).select('-password');
-    next();
+    next();  //moving to next route
   } catch (err) {
     console.error(err);
     res.status(401).json({ message: 'Invalid or expired token' });
   }
 };
 
+//at this point we sill get user data in req.user so verifying for admin
 const adminOnly = (req, res, next) => {
   if (!req.user || req.user.role !== 'admin') {
     return res.status(403).json({ message: 'Admin access only' });
@@ -28,5 +29,5 @@ const adminOnly = (req, res, next) => {
   next();
 };
 
-module.exports = { protect, adminOnly };
+module.exports = { protected, adminOnly };
  
