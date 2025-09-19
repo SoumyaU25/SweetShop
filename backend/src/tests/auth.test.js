@@ -1,12 +1,12 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
 const app = require('../app');
-const User = require('../models/User');
+const User = require('../model/User');
 
 describe('Auth Register', () => {
   beforeAll(async () => {
     // use a separate db name to avoid polluting dev db
-    const uri = process.env.MONGO_URI + '-test';
+    const uri = process.env.MONGO + '-test';
     await mongoose.connect(uri);
   });
 
