@@ -116,35 +116,57 @@ export default function AdminDashboard() {
 
   //Update Function
   const handleUpdate = async (sweet) => {
-  const name = prompt("Sweet Name:", sweet.name);
-  const category = prompt("Category:", sweet.category);
-  const price = prompt("Price:", sweet.price);
-  const quantity = prompt("Quantity:", sweet.quantity);
+    const name = prompt("Sweet Name:", sweet.name);
+    const category = prompt("Category:", sweet.category);
+    const price = prompt("Price:", sweet.price);
+    const quantity = prompt("Quantity:", sweet.quantity);
 
-  if (!name || !category || !price || !quantity) return;
+    if (!name || !category || !price || !quantity) return;
 
-  try {
-    const res = await axios.put(
-      `http://localhost:4000/api/sweets/${sweet._id}`,
+    try {
+      const res = await axios.put(
+        `http://localhost:4000/api/sweets/${sweet._id}`,
         {
-        name,
-        category,
-        price: Number(price), // important!
-        quantity: Number(quantity), // important!
-      },
-      {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      }
-    );
+          name,
+          category,
+          price: Number(price), // important!
+          quantity: Number(quantity), // important!
+        },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
 
-    // Update sweet in local state
-    setSweets(sweets.map((s) => (s._id === sweet._id ? res.data : s)));
-    alert("Sweet updated successfully");
-  } catch (err) {
-    console.error(err);
-    alert("Failed to update sweet");
-  }
-};
+      // Update sweet in local state
+      setSweets(sweets.map((s) => (s._id === sweet._id ? res.data : s)));
+      alert("Sweet updated successfully");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to update sweet");
+    }
+  };
+
+  //Restock Function
+
+  const handleRestock = async (id) => {
+    const amount = prompt("Enter restock amount:", 1);
+    if (!amount) return;
+
+    try {
+      const res = await axios.post(
+        `http://localhost:4000/api/sweets/${id}/restock`,
+        { amount: Number(amount) },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      alert(res.data.message);
+      setSweets(sweets.map((s) => (s._id === id ? res.data.sweet : s)));
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.message || "Restock failed");
+    }
+  };
 
   return (
     <div className="p-8">
@@ -208,7 +230,7 @@ export default function AdminDashboard() {
 
         <button
           type="submit"
-          className="bg-pink-600 text-white py-2 px-4 rounded col-span-full hover:bg-pink-700"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded col-span-full"
         >
           Add Sweet
         </button>
@@ -237,7 +259,7 @@ export default function AdminDashboard() {
               {/* Update Button */}
               <button
                 onClick={() => handleUpdate(sweet)}
-                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded hover:bg-blue-600"
               >
                 Update
               </button>
@@ -248,6 +270,14 @@ export default function AdminDashboard() {
                 className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
               >
                 Delete
+              </button>
+
+              {/* Restock Button */}
+              <button
+                onClick={() => handleRestock(sweet._id)}
+                className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+              >
+                Restock
               </button>
             </div>
           </div>

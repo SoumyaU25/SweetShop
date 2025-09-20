@@ -5,6 +5,7 @@ import axios from 'axios'
 export default function SweetDetail() {
   const { id } = useParams()
   const [sweet, setSweet] = useState(null)
+  const [purchasing, setPurchasing] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -26,7 +27,31 @@ export default function SweetDetail() {
   if (loading) return <div>Loading...</div>
   if (!sweet) return <div>Sweet not found.</div>
 
-  const img = sweet.imageUrl || `https://source.unsplash.com/800x600/?sweet`
+   const handlePurchase = async () => {
+    if (!window.confirm(`Are you sure you want to purchase "${sweet.name}"?`)) return
+
+    setPurchasing(true)
+    try {
+      const res = await axios.post(
+        `http://localhost:4000/api/sweets/${sweet._id}/purchase`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      )
+      setSweet(res.data.sweet) // update quantity
+      alert(res.data.message)
+    } catch (err) {
+      console.error(err)
+      alert(err.response?.data?.message || 'Purchase failed')
+    } finally {
+      setPurchasing(false)
+    }
+  }
+
+  const img = sweet.imageUrl
 
   return (
     <div className="max-w-4xl mx-auto bg-white rounded shadow p-6">
@@ -40,11 +65,13 @@ export default function SweetDetail() {
             <p className="text-xl font-semibold">₹{sweet.price}</p>
             <p className="mt-1 text-sm">In stock: {sweet.quantity}</p>
             <button
-              className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
-              onClick={() => alert('Purchase flow to be implemented')}
-              disabled={sweet.quantity <= 0}
+              className={`mt-4 px-4 py-2 rounded text-white ${
+                sweet.quantity > 0 ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-gray-400 cursor-not-allowed'
+              }`}
+              onClick={handlePurchase}
+              disabled={sweet.quantity <= 0 || purchasing}
             >
-              {sweet.quantity > 0 ? 'Purchase' : 'Out of stock'}
+              {purchasing ? 'Processing...' : sweet.quantity > 0 ? 'Purchase' : 'Out of stock'}
             </button>
           </div>
         </div>

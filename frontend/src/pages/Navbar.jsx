@@ -15,7 +15,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-pink-500 text-white px-6 py-3 flex justify-between items-center">
+    <nav className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 flex justify-between items-center">
       <Link to="/" className="text-xl font-bold">
         SweetShop
       </Link>
@@ -31,7 +31,7 @@ export default function Navbar() {
         {user && (
           <>
             {user.role === "admin" && (
-              <Link to="/admin" className="hover:underline">Admin Dashboard</Link>
+              <Link to="/admin" className="hover:underline">Dashboard</Link>
             )}
 
             <button
@@ -41,6 +41,7 @@ export default function Navbar() {
               <FaUserCircle size={22} />
               <span className="hidden sm:inline">{user.username}</span>
             </button>
+            
           </>
         )}
       </div>

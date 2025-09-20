@@ -58,7 +58,7 @@ export default function Register() {
 
         <button
           type="submit"
-          className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 w-full rounded"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 w-full rounded"
         >
           Register
         </button>
