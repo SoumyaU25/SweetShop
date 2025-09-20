@@ -11,12 +11,7 @@ export default function Home() {
         const res = await axios.get("http://localhost:4000/api/sweets");
         // Attaching a random dessert photo to each sweet
         const withPhotos = res.data.map(s => ({
-          ...s,
-          // Unsplash random dessert photo, size 600x400
-            imageUrl: `https://source.unsplash.com/600x400/?dessert&sig=${Math.floor(
-            Math.random() * 1000
-          )}`
-,
+          ...s
         }));
         setSweets(withPhotos);
       } catch (err) {

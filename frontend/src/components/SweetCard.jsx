@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 export default function SweetCard({ sweet }) {
   // sweet: { _id, name, category, price, quantity, imageUrl}
-  const img = sweet.imageUrl ||`https://source.unsplash.com/600x400/?sweet,dessert`
+  const img = sweet.imageUrl
   return (
     <Link to={`/sweets/${sweet._id}`} className="block">
       <div className="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow">
