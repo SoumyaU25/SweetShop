@@ -1,8 +1,8 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
-const app = require('../src/app'); 
-const User = require('../src/model/User');
-const Sweet = require('../src/model/Sweet');
+const app = require('../app'); 
+const User = require('../model/User');
+const Sweet = require('../model/Sweet');
 
 let adminToken;
 let sweetId;
@@ -39,6 +39,7 @@ describe('Sweet routes checks', () => {
       .send({
         name: 'Laddoo',
         category: 'Indian',
+        description:'Very Sweet',
         price: 120,
         quantity: 50,
         imageUrl: 'https://picsum.photos/200'
@@ -46,7 +47,7 @@ describe('Sweet routes checks', () => {
       .expect(201);
 
     sweetId = res.body._id;
-    expect(res.body.name).toBe('Rasgulla');
+    expect(res.body.name).toBe('Laddoo');
   });
 
   test('GET /api/sweets → list sweets', async () => {
@@ -58,20 +59,20 @@ describe('Sweet routes checks', () => {
     const res = await request(app)
       .post(`/api/sweets/${sweetId}/purchase`)
       .set('Authorization', `Bearer ${adminToken}`)
-      .send({ quantity: 5 })
+      .send({ amount: 1 })
       .expect(200);
 
-    expect(res.body.quantity).toBe(45);
+    expect(res.body.sweet.quantity).toBe(49);
   });
 
   test('POST /api/sweets/:id/restock → increase quantity (admin)', async () => {
     const res = await request(app)
       .post(`/api/sweets/${sweetId}/restock`)
       .set('Authorization', `Bearer ${adminToken}`)
-      .send({ quantity: 10 })
+      .send({ amount: 10 })
       .expect(200);
 
-    expect(res.body.quantity).toBe(55);
+    expect(res.body.sweet.quantity).toBe(59);
   });
 });
 

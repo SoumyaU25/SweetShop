@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../model/User');
 
-const protected = async (req, res, next) => {
+const protect = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   console.log(authHeader);
 
@@ -29,5 +29,5 @@ const adminOnly = (req, res, next) => {
   next();
 };
 
-module.exports = { protected, adminOnly };
+module.exports = { protect, adminOnly };
  
