@@ -1,5 +1,9 @@
+
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
+
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -8,11 +12,17 @@ export default function Navbar() {
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
 
+
+
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     navigate("/");
   };
+
+
+  
 
   return (
     <nav className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 flex justify-between items-center">
