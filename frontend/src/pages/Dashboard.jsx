@@ -23,7 +23,6 @@ export default function AdminDashboard() {
       return;
     }
     fetchSweets();
-    
   }, []);
 
   const fetchSweets = async () => {
@@ -55,7 +54,7 @@ export default function AdminDashboard() {
       if (file) {
         const data = new FormData();
         data.append("file", file);
-        data.append("upload_preset", "upload");// cloudinary preset
+        data.append("upload_preset", "upload"); // cloudinary preset
 
         const uploadRes = await axios.post(
           "https://api.cloudinary.com/v1_1/dvgt9sgl7/image/upload",
@@ -81,7 +80,13 @@ export default function AdminDashboard() {
       });
 
       // Reset form
-      setFormData({ name: "", category: "", price: "", quantity: "" , description: ""});
+      setFormData({
+        name: "",
+        category: "",
+        price: "",
+        quantity: "",
+        description: "",
+      });
       setFile(null);
       fetchSweets();
     } catch (err) {
@@ -89,14 +94,63 @@ export default function AdminDashboard() {
     }
   };
 
+  //Delete Function
 
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this sweet?")) return;
+
+    try {
+      await axios.delete(`http://localhost:4000/api/sweets/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // admin JWT
+        },
+      });
+      // Remove deleted sweet from state
+      setSweets(sweets.filter((s) => s._id !== id));
+      alert("Sweet deleted successfully");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete sweet");
+    }
+  };
+
+  //Update Function
+  const handleUpdate = async (sweet) => {
+  const name = prompt("Sweet Name:", sweet.name);
+  const category = prompt("Category:", sweet.category);
+  const price = prompt("Price:", sweet.price);
+  const quantity = prompt("Quantity:", sweet.quantity);
+
+  if (!name || !category || !price || !quantity) return;
+
+  try {
+    const res = await axios.put(
+      `http://localhost:4000/api/sweets/${sweet._id}`,
+        {
+        name,
+        category,
+        price: Number(price), // important!
+        quantity: Number(quantity), // important!
+      },
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      }
+    );
+
+    // Update sweet in local state
+    setSweets(sweets.map((s) => (s._id === sweet._id ? res.data : s)));
+    alert("Sweet updated successfully");
+  } catch (err) {
+    console.error(err);
+    alert("Failed to update sweet");
+  }
+};
 
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-4">Admin Dashboard</h1>
-       
 
-       {/* Admin Form */}
+      {/* Admin Form */}
       <form
         onSubmit={handleSubmit}
         className="mb-8 bg-white shadow p-6 rounded grid grid-cols-1 sm:grid-cols-2 gap-4"
@@ -177,11 +231,28 @@ export default function AdminDashboard() {
             <p className="text-gray-600">{sweet.category}</p>
             <p className="text-pink-600 font-bold mt-2">₹{sweet.price}</p>
             <p className="text-sm text-gray-500">Stock: {sweet.quantity}</p>
+
+            {/* Buttons */}
+            <div className="flex gap-2 mt-4">
+              {/* Update Button */}
+              <button
+                onClick={() => handleUpdate(sweet)}
+                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+              >
+                Update
+              </button>
+
+              {/* Delete Button */}
+              <button
+                onClick={() => handleDelete(sweet._id)}
+                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         ))}
       </div>
     </div>
   );
-
 }
-

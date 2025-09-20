@@ -31,7 +31,7 @@ const createSweets = async (req, res) =>{
 
 const updateSweet = async (req, res, next) => {
   try {
-    const updatedSweet = await Hotel.findByIdAndUpdate(
+    const updatedSweet = await Sweet.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
       { new: true }

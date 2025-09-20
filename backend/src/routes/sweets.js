@@ -11,7 +11,7 @@ router.get('/:id', getSweetById)
 // Admin-only actions
 router.post('/create', protected, adminOnly, createSweets);
 router.put('/:id', protected, adminOnly, updateSweet);
-router.post('/delete/:id', protected, adminOnly, deleteSweet);
+router.delete('/delete/:id', protected, adminOnly, deleteSweet);
 
 //Inventory
 router.post('/:id/purchase', protected, purchaseSweet);
