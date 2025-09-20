@@ -110,6 +110,13 @@ Reflection:
 ChatGPT acted more like a senior developer I could bounce ideas off of than a code generator.
 It sped up problem-solving and gave me confidence when writing tests, but every implementation detail and final decision remained in my hands.
 
+Test Report:(backend)
+
+<img width="706" height="420" alt="tc1" src="https://github.com/user-attachments/assets/f1f7a579-c7bf-4dd9-958c-80af56bba8d9" />
+<img width="710" height="368" alt="tc2" src="https://github.com/user-attachments/assets/e9c0b616-00b7-4ede-aa3e-ce323f75ffe5" />
+
+
+
 Thankyou, have a good day :)
    
 
