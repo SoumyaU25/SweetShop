@@ -100,12 +100,12 @@ Feature Development & Debugging
 
 3. Admin Dashboard: I leaned on ChatGPT for advice on form handling and connecting the Cloudinary upload flow to the backend, while customizing the final logic and UI.
 
-Testing
+Testing:
 
 For backend Jest tests (authentication and sweet routes), I asked ChatGPT for example test structures and assertions.
 I then modified the suggested tests to fit my exact schema and middleware.
 
-Reflection
+Reflection:
 
 ChatGPT acted more like a senior developer I could bounce ideas off of than a code generator.
 It sped up problem-solving and gave me confidence when writing tests, but every implementation detail and final decision remained in my hands.
