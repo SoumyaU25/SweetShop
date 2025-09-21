@@ -57,13 +57,12 @@ Backend:
 Frontend:
 1. Navigate to the frontend folder:
    
-   cd SweetShop/frontend
+   cd SweetShop/backend/frontend
 3. Install dependencies:
    
    npm install
 5. Start the development server:
    
-   npm run dev
    Update: after running backend, frontend will also run because frontend is now served on backend.
 
 
