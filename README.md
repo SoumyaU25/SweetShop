@@ -64,6 +64,7 @@ Frontend:
 5. Start the development server:
    
    npm run dev
+   Update: after running backend, frontend will also run because frontend is now served on backend.
 
 
 ScreenShots:
