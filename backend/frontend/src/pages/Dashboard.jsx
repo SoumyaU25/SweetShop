@@ -100,7 +100,7 @@ export default function AdminDashboard() {
     if (!window.confirm("Are you sure you want to delete this sweet?")) return;
 
     try {
-      await axios.delete(`http://localhost:4000/api/sweets/delete/${id}`, {
+      await axios.delete(`/api/sweets/delete/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`, // admin JWT
         },
@@ -125,7 +125,7 @@ export default function AdminDashboard() {
 
     try {
       const res = await axios.put(
-        `http://localhost:4000/api/sweets/${sweet._id}`,
+        `/api/sweets/${sweet._id}`,
         {
           name,
           category,
@@ -154,7 +154,7 @@ export default function AdminDashboard() {
 
     try {
       const res = await axios.post(
-        `http://localhost:4000/api/sweets/${id}/restock`,
+        `/api/sweets/${id}/restock`,
         { amount: Number(amount) },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
