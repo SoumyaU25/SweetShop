@@ -12,7 +12,7 @@ export default function SweetDetail() {
     let mounted = true
     async function fetchSweet() {
       try {
-        const res = await axios.get(`http://localhost:4000/api/sweets/${id}`)
+        const res = await axios.get(`/api/sweets/${id}`)
         if (mounted) setSweet(res.data)
       } catch (err) {
         console.error(err)
@@ -33,7 +33,7 @@ export default function SweetDetail() {
     setPurchasing(true)
     try {
       const res = await axios.post(
-        `http://localhost:4000/api/sweets/${sweet._id}/purchase`,
+        `/api/sweets/${sweet._id}/purchase`,
         {},
         {
           headers: {

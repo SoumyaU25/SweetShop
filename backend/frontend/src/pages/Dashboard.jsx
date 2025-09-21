@@ -27,7 +27,7 @@ export default function AdminDashboard() {
 
   const fetchSweets = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/api/sweets", {
+      const res = await axios.get("/api/sweets", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setSweets(res.data);
@@ -75,7 +75,7 @@ export default function AdminDashboard() {
       console.log("Payload being sent:", newSweet);
 
       // Send to backend
-      await axios.post("http://localhost:4000/api/sweets/create", newSweet, {
+      await axios.post("/api/sweets/create", newSweet, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

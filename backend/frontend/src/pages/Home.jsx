@@ -20,8 +20,8 @@ export default function Home() {
       const query = new URLSearchParams(filteredParams).toString();
 
       const url = query
-        ? `http://localhost:4000/api/sweets/search?${query}`
-        : "http://localhost:4000/api/sweets";
+        ? `/api/sweets/search?${query}`
+        : "/api/sweets";
 
       const res = await axios.get(url);
       setSweets(res.data);

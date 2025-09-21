@@ -13,7 +13,7 @@ export default function Register() {
     e.preventDefault();
     setMessage("");
     try {
-      const res = await axios.post("http://localhost:4000/api/auth/register", form);
+      const res = await axios.post("/api/auth/register", form);
       setMessage(`Registered successfully! Welcome ${res.data.user.username}`);
     } catch (err) {
       setMessage(err.response?.data?.message || "Registration failed");
