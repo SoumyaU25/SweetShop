@@ -2,6 +2,14 @@ SweetShop 🍬
 
 A full-stack Sweet and Dessert Shop web application where users can browse, search, and purchase sweets while admins can manage inventory. This project demonstrates React, Node.js/Express, MongoDB, and TailwindCSS integration for a complete e-commerce-like experience.
 
+Live Link :  https://sweetshop-rnle.onrender.com/
+
+To use Admin Features use this credetial:
+
+Email: admin23@example.com
+
+Password: secret1234
+
 Features:
 
 User Features
