@@ -4,6 +4,12 @@ A full-stack Sweet and Dessert Shop web application where users can browse, sear
 
 Live Link :  https://sweetshop-rnle.onrender.com/
 
+To use Admin Features use this credetial:
+
+Email: admin23@example.com
+
+Password: secret1234
+
 Features:
 
 User Features
